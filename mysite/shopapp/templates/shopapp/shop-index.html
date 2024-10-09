@@ -1,0 +1,30 @@
+{% extends "shopapp/base.html" %}
+{% load cache %}
+
+{% block title %}
+    Shop
+{% endblock %}
+
+{% block body %}
+
+    <h1>Available pages:</h1>
+    {% if refs %}
+        <div>
+        {% for ref in refs %}
+            <div>
+                <p><b>Page:</b> {{ ref.name }}</p>
+                <p><b>Description:</b> {{ ref.description }}</p>
+                <br>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <h3>No pages yet</h3>
+    {% endif %}
+    
+    {% cache 20 lorem %}
+    <div>
+        {% lorem 3 p random %}
+    </div>
+    {% endcache %}
+{% endblock %}

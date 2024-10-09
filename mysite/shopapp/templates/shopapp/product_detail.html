@@ -1,0 +1,69 @@
+{% extends "shopapp/base.html" %}
+
+{% load i18n %}
+
+{% block title %}
+{% translate 'Product' %} #{{ object.pk }}
+{% endblock title %}
+
+
+
+{% block body %}
+    <h1>{% translate 'Product' %} <strong>{{ object.name }}</strong></h1>
+    <div>
+        <div>
+            {% translate 'Description' %}: <em>{{ object.description }}</em>
+        </div>
+        <div>
+            {% translate 'Price' %}: <em>{{ object.price }}</em>
+        </div>
+        <div>
+            {% translate 'Discount' %}: <em>{{ object.discount }}</em>
+        </div>
+        <div>
+            {% translate 'Archived' %}: <em>{{ object.archived }}</em>
+        </div>
+        {% if object.preview %}
+            <img src="{{ object.preview.url }}" alt="{{ object.preview.name }}" width="150">
+        {% endif %}
+
+        <h3>{% translate 'Images' %}</h3>
+        <div>
+            {% blocktranslate count images_count=object.images.all|length %}
+            There is only one image.
+            {% plural %}
+            There are {{ images_count }} images.
+            {% endblocktranslate %}
+        </div>
+        <div>
+            {% for image in object.images.all %}
+            <div>
+                <img src="{{ image.image.url }}" alt="{{ image.image.name }}" width="150">
+            </div>
+            <div>
+                {{ image.description }}
+            </div>
+            {% empty %}
+            <div>No images uploaded yet</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% url 'shopapp:product_update' pk=object.pk as update_product_url %}
+    {% url 'shopapp:product_archive' pk=object.pk as archive_product_url %}
+    {% url 'shopapp:products_list' as product_list_url %}
+
+    {% blocktranslate %}
+    <div>
+        <a href="{{ update_product_url }}">Update product</a>
+    </div>
+    <div>
+        <a href="{{ create_product_url }}">Archive product</a>
+    </div>
+    <br>
+    <div>
+        <a href="{{ product_list_url }}">Back to products list</a>
+    </div>
+    {% endblocktranslate %}
+{% endblock body %}
+

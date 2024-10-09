@@ -1,0 +1,41 @@
+{% extends 'myauth/base.html' %}
+{% load cache %}
+
+{% block title %}
+    About me
+{% endblock %}
+
+{% block body %}
+<h1>User info</h1>
+    <div>
+        Products available: {% now "u" %}
+    </div>
+    {% if user.is_authenticated %}
+        {% cache 300 user_info user.username %}
+            {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}" alt="{{ user.profile.avatar.name }}" width="150">
+            {% else %}
+                <h6>No avatar uploaded yet</h6>
+            {% endif %}
+            <div>
+                <form method='post' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    {{ form.avatar }}
+                    <br>
+                    <button type='submit'>
+                        Update avatar
+                    </button>
+                </form>
+            </div>
+
+            <p>Username: {{ user.username }}</p>
+            <p>Firtname: {{ user.first_name }}</p>
+            <p>Lastname: {{ user.last_name }}</p>
+            <p>E-mail: {{ user.email }}</p>
+            <p>Bio: {{ user.profile.bio }}</p>
+        {% endcache %}
+    {% else%}
+        <h2>User is anonimus</h2>
+    {% endif %}
+{% endblock %}

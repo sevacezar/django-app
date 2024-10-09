@@ -1,0 +1,18 @@
+[
+    {
+        "delivary_address": "Yamskaya 1",
+        "promocode": "SUPER",
+        "user_id": 1,
+        "products_ids": [
+            1, 2, 3
+        ]
+    },
+    {
+        "delivary_address": "Shirotnaya 100",
+        "promocode": "EASY",
+        "user_id": 2,
+        "products_ids": [
+            5, 3, 1
+        ]
+    }
+]
